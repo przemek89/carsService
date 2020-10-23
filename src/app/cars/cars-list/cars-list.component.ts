@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Car } from '../models/car';
+import { TotalCostComponent } from '../total-cost/total-cost.component';
 
 @Component({
   selector: 'cars-list',
@@ -7,7 +8,8 @@ import { Car } from '../models/car';
   styleUrls: ['./cars-list.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class CarsListComponent implements OnInit {
+export class CarsListComponent implements OnInit, AfterViewInit {
+  @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
   totalCost : number;
   grossCost : number;
   cars : Car[] = [
@@ -26,15 +28,15 @@ export class CarsListComponent implements OnInit {
     },
     {
       id: 1,
-      model: 'Mazda',
-      plate: '123QWE789',
-      deliveryDate: '21-04-2017',
-      deadline: '05-05-2016',
+      model: 'Toyota',
+      plate: '456LSE654',
+      deliveryDate: '01-05-2016',
+      deadline: '25-06-2017',
       client: {
-        firstName: 'Jan',
-        surname: 'Kowalski'
+        firstName: 'Karol',
+        surname: 'Kowalewski'
       },
-      cost: 300,
+      cost: 400,
       isFullyDamaged: false
     },
     {
@@ -47,7 +49,7 @@ export class CarsListComponent implements OnInit {
         firstName: 'Jan',
         surname: 'Kowalski'
       },
-      cost: 300,
+      cost: 600,
       isFullyDamaged: true
     }
   ];
@@ -56,6 +58,14 @@ export class CarsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.countTotalCost();
+  }
+
+  ngAfterViewInit() : void {
+    this.totalCostRef.showGross();
+  }
+
+  showGross() : void {
+    this.totalCostRef.showGross();
   }
 
   countTotalCost() : void {
