@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
 import { TotalCostComponent } from '../total-cost/total-cost.component';
 
@@ -12,52 +13,19 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
   totalCost : number;
   grossCost : number;
-  cars : Car[] = [
-    {
-      id: 1,
-      model: 'Mazda',
-      plate: '123QWE789',
-      deliveryDate: '21-04-2017',
-      deadline: '05-05-2016',
-      client: {
-        firstName: 'Jan',
-        surname: 'Kowalski'
-      },
-      cost: 300,
-      isFullyDamaged: true
-    },
-    {
-      id: 1,
-      model: 'Toyota',
-      plate: '456LSE654',
-      deliveryDate: '01-05-2016',
-      deadline: '25-06-2017',
-      client: {
-        firstName: 'Karol',
-        surname: 'Kowalewski'
-      },
-      cost: 400,
-      isFullyDamaged: false
-    },
-    {
-      id: 1,
-      model: 'Mazda',
-      plate: '123QWE789',
-      deliveryDate: '21-04-2017',
-      deadline: '05-05-2016',
-      client: {
-        firstName: 'Jan',
-        surname: 'Kowalski'
-      },
-      cost: 600,
-      isFullyDamaged: true
-    }
-  ];
+  cars : Car[];
 
-  constructor() { }
+  constructor(private carsService : CarsService) { }
 
   ngOnInit(): void {
-    this.countTotalCost();
+    this.loadCars();
+  }
+
+  loadCars() : void {
+    this.carsService.getCars().subscribe((cars) => {
+      this.cars = cars;
+      this.countTotalCost();
+    } )
   }
 
   ngAfterViewInit() : void {
