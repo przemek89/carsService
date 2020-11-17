@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CarsModule } from './cars/cars.module';
 import { CarsService } from './cars/cars.service';
+import { CoreModule} from './core-module/core.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { CarsService } from './cars/cars.service';
   imports: [
     BrowserModule,
     CarsModule,
+    CoreModule,
     HttpClientModule
   ],
   providers: [CarsService],
