@@ -16,4 +16,8 @@ export class CarsService {
     return this.http.get<Car[]>(this.url)
   }
 
+  getCar(id : number) {
+    return this.http.get<Car>(this.url + `/${id}`)
+  }
+
 }
