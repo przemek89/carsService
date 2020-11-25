@@ -1,6 +1,5 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Route} from "@angular/router";
-import { resolve } from 'dns';
 import {CarDetailsComponent} from "./car-details/car-details.component"
 import { CarResolve } from './car-resolve.service';
 

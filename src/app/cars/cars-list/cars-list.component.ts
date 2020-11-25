@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
 import { TotalCostComponent } from '../total-cost/total-cost.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'cars-list',
@@ -15,12 +16,32 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   totalCost : number;
   grossCost : number;
   cars : Car[];
+  carForm : FormGroup;
 
   constructor(private carsService : CarsService,
+              private formBuilder : FormBuilder,
               private router : Router) { }
 
   ngOnInit(): void {
     this.loadCars();
+    this.carForm = this.buildCarForm();
+  }
+
+  buildCarForm() {
+    return this.formBuilder.group({
+      model: ['', Validators.required],
+      type: '',
+      plate: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(7)]],
+      deliveryDate: '',
+      deadline: '',
+      color: '',
+      power: '',
+      clientFirstName: '',
+      clientSurname: '',
+      cost: '',
+      isFullyDamaged: '',
+      year: ''
+  });
   }
 
   loadCars() : void {
@@ -28,6 +49,12 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       this.cars = cars;
       this.countTotalCost();
     } )
+  }
+
+  addCar() {
+    this.carsService.addCar(this.carForm.value).subscribe(() => {
+      this.loadCars();
+    })
   }
 
   goToCarDetails(car : Car) {
