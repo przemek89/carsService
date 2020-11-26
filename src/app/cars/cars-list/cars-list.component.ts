@@ -48,17 +48,24 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     this.carsService.getCars().subscribe((cars) => {
       this.cars = cars;
       this.countTotalCost();
-    } )
+    });
   }
 
   addCar() {
     this.carsService.addCar(this.carForm.value).subscribe(() => {
       this.loadCars();
-    })
+    });
   }
 
   goToCarDetails(car : Car) {
     this.router.navigate(['/cars', car.id]);
+  }
+
+  removeCar(car : Car, event : Event) {
+    event.stopPropagation();
+    this.carsService.removeCar(car.id).subscribe(() => {
+      this.loadCars();
+    });
   }
 
   ngAfterViewInit() : void {

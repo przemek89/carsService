@@ -28,4 +28,8 @@ export class CarsService {
   updateCar(id : number, data : Car) {
     return this.http.put<Car>(this.url + `/${id}`, data)
   }
+
+  removeCar(id : number) {
+    return this.http.delete<Car>(this.url + `/${id}`)
+  }
 }

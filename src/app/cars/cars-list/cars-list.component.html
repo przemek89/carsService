@@ -21,13 +21,13 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let car of cars; let i = index" (click)="goToCarDetails(car)" class="row-car">
-                        <td [ngClass]="{'row-error':car.isFullyDamaged}"> {{ car?.model | uppercase }} </td>
+                        <td csImportant [ngClass]="{'row-error':car.isFullyDamaged}"> {{ car?.model | uppercase }} </td>
                         <td> {{ car?.plate }} </td>
                         <td> {{ car?.deliveryDate | date:'shortDate' }} </td>
                         <td> {{ car?.deadline | date:'shortDate' }} </td>
                         <td> {{ car?.clientFirstName }} {{ car?.clientSurname | surnameShortcut }} </td>
-                        <td> {{ car?.cost | currency:'PLN':true }} </td>
-                        <td> PLACEHOLDER </td>
+                        <td csImportant> {{ car?.cost | currency:'PLN':'code' }} </td>
+                        <td (click)="removeCar(car, $event)"> ( X ) </td>
                     </tr>
                 </tbody>
             </table>
@@ -123,6 +123,4 @@
             </div>
         </div>
     </form>
-    <pre> {{ carForm.value | json }} </pre>
-    <pre> {{ carForm.get('model').valid | json }} </pre>
 </div>
