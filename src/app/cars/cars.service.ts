@@ -24,4 +24,8 @@ export class CarsService {
   addCar(data : Car) : Observable<Car> {
     return this.http.post<Car>(this.url, data)
   }
+
+  updateCar(id : number, data : Car) {
+    return this.http.put<Car>(this.url + `/${id}`, data)
+  }
 }
