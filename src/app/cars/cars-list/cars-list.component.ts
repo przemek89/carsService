@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
 import { TotalCostComponent } from '../total-cost/total-cost.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { CostSharedService } from '../cost-shared.service';
+import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
 
 @Component({
   selector: 'cars-list',
@@ -14,6 +15,7 @@ import { CostSharedService } from '../cost-shared.service';
 })
 export class CarsListComponent implements OnInit, AfterViewInit {
   @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
+  @ViewChildren(CarTableRowComponent) carRows : QueryList<CarTableRowComponent>;
   totalCost : number;
   grossCost : number;
   cars : Car[];
@@ -27,6 +29,14 @@ export class CarsListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.loadCars();
     this.carForm = this.buildCarForm();
+  }
+
+  ngAfterViewInit() {
+    this.carRows.changes.subscribe(() => {
+      if (this.carRows.first.car.clientSurname === 'Kowalski') {
+        console.log('KOWALSKI');
+      }
+    });
   }
 
   buildCarForm() {
@@ -44,6 +54,19 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       isFullyDamaged: '',
       year: ''
   });
+  }
+
+  togglePlateValidity() {
+    const damageControl = this.carForm.get('isFullyDamaged');
+    const plateControl = this.carForm.get('plate');
+
+    if (damageControl.value) {
+      plateControl.clearValidators();
+    } else {
+      plateControl.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(7)]);
+    }
+
+    plateControl.updateValueAndValidity();
   }
 
   loadCars() : void {
@@ -64,15 +87,10 @@ export class CarsListComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/cars', car.id]);
   }
 
-  removeCar(car : Car, event : Event) {
-    event.stopPropagation();
+  onRemovedCar(car : Car) {
     this.carsService.removeCar(car.id).subscribe(() => {
       this.loadCars();
     });
-  }
-
-  ngAfterViewInit() : void {
-    this.totalCostRef.showGross();
   }
 
   showGross() : void {
