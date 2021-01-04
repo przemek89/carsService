@@ -91,7 +91,8 @@
             </div>
             <div class="col-sm-4">
                 <label>Power</label>
-                <input formControlName="power" type="text" class="form-control" placeholder="power">
+                <input formControlName="power" type="number" class="form-control" placeholder="power">
+                <p *ngIf="carForm.get('power').errors?.power && carForm.get('power').dirty" class="error">Power must be bigger than 50 and smaller than 800!</p>
             </div>
             <div class="col-sm-4">
                 <label>Cost</label>

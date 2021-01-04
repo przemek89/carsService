@@ -6,6 +6,7 @@ import { TotalCostComponent } from '../total-cost/total-cost.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { CostSharedService } from '../cost-shared.service';
 import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
+import { CsValidators } from 'src/app/shared-module/validators/cs-validators';
 
 @Component({
   selector: 'cars-list',
@@ -47,7 +48,7 @@ export class CarsListComponent implements OnInit, AfterViewInit {
       deliveryDate: '',
       deadline: '',
       color: '',
-      power: '',
+      power: ['', CsValidators.power],
       clientFirstName: '',
       clientSurname: '',
       cost: '',
