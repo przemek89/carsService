@@ -95,8 +95,8 @@
                 <p *ngIf="carForm.get('power').errors?.power && carForm.get('power').dirty" class="error">Power must be bigger than 50 and smaller than 800!</p>
             </div>
             <div class="col-sm-4">
-                <label>Cost</label>
-                <input formControlName="cost" type="text" class="form-control" placeholder="cost">
+                <label>Year</label>
+                <input formControlName="year" type="text" class="form-control" placeholder="year">
             </div>
         </div>
         <div class="row form-group">
@@ -108,11 +108,36 @@
                 <label>Client Surname</label>
                 <input formControlName="clientSurname" type="text" class="form-control" placeholder="client surname">
             </div>
-            <div class="col-sm-4">
-                <label>Year</label>
-                <input formControlName="year" type="text" class="form-control" placeholder="year">
+
+        </div>
+
+        <div formArrayName="parts" *ngFor="let part of parts.controls; let i = index">
+            <div [formGroupName]="i" class="part-group">
+                <div class="row">
+                    <div class="col-12">
+                        <h5>{{ i + 1 }}) {{ part.value.name }} {{ part.value.price | currency:'PLN':'code' }}
+                            <span class="btn btn-danger float-right" (click)="removePart(i)">X</span>
+                        </h5>
+                    </div>
+                </div>
+                <div class="row form-group col-12">
+                    <div class="col-sm-4">
+                        <label>Part Name</label>
+                        <input formControlName="name" type="text" class="form-control" placeholder="part name">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Part Price</label>
+                        <input formControlName="price" type="text" class="form-control" placeholder="price">
+                    </div>
+                    <div class="col-sm-4">
+                        <label>Is Part In Stock?
+                            <input formControlName="inStock" type="checkbox">
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
+        <button class="btn btn-primary" (click)="addPart()">Add Part</button>
         <div class="row">
             <div class="col-sm-12">
                 <button [disabled]="carForm.invalid" (click)="addCar()" type="submit" class="btn btn-primary float-right">Add Car</button>
