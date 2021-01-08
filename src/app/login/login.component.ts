@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { LayoutService } from '../shared-module/services/layout.service';
 
 @Component({
   selector: 'cs-login',
@@ -11,7 +12,8 @@ export class LoginComponent {
   login = '';
   password = '';
   constructor(private authService : AuthService,
-              private router : Router) { }
+              private router : Router,
+              private layoutService : LayoutService) { }
 
   onSubmit() {
     this.authService.login(this.login, this.password)
@@ -19,7 +21,7 @@ export class LoginComponent {
   }
 
   private onSubmitSuccess() {
-    this.router.navigate(['/cars']);
+    this.router.navigate(['/cars']).then(() => this.layoutService.showSidebar());
   }
 
   private onSubmitFailure() {
