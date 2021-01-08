@@ -1,16 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CarsModule, CarsListComponent, CarsRoutingModule, CarsService} from './cars';
+import { CarsService} from './cars';
 import { AppComponent } from './app.component';
 import { CoreModule} from './core-module/core.module';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
-import { LoginRoutingModule } from './login/login-routing.module';
+import { AuthGuard } from './guards/auth.guard';
 import { LoginModule } from './login/login.module';
 import { LayoutService } from './shared-module/services/layout.service';
+import { AuthCanLoadGuard } from './guards/auth-can-load.guard';
+import { FormCanDeactivateGuard } from './guards/form-can-deactivate';
 
 @NgModule({
   declarations: [
@@ -18,15 +18,18 @@ import { LayoutService } from './shared-module/services/layout.service';
   ],
   imports: [
     BrowserModule,
-    CarsModule,
     LoginModule,
     CoreModule,
     HttpClientModule,
-    AppRoutingModule,
-    CarsRoutingModule,
-    LoginRoutingModule
+    AppRoutingModule
   ],
-  providers: [CarsService, AuthService, AuthGuard, LayoutService],
+  providers: [
+    CarsService,
+    AuthService,
+    AuthGuard,
+    LayoutService,
+    AuthCanLoadGuard,
+    FormCanDeactivateGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

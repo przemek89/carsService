@@ -7,6 +7,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { CostSharedService } from '../cost-shared.service';
 import { CarTableRowComponent } from '../car-table-row/car-table-row.component';
 import { CsValidators } from 'src/app/shared-module/validators/cs-validators';
+import { CanDeactivateComponent } from 'src/app/guards/form-can-deactivate';
 
 @Component({
   selector: 'cars-list',
@@ -14,7 +15,7 @@ import { CsValidators } from 'src/app/shared-module/validators/cs-validators';
   styleUrls: ['./cars-list.component.less'],
   encapsulation: ViewEncapsulation.None
 })
-export class CarsListComponent implements OnInit, AfterViewInit {
+export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateComponent {
   @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
   @ViewChildren(CarTableRowComponent) carRows : QueryList<CarTableRowComponent>;
   totalCost : number;
@@ -135,5 +136,14 @@ export class CarsListComponent implements OnInit, AfterViewInit {
 
   onShownGross(grossCost : number) : void {
     this.grossCost = grossCost;
+  }
+
+  canDeactivate() {
+    if (!this.carForm.dirty) {
+      return true;
+    }
+
+    return window.confirm('Discard your changes?');
+
   }
 }

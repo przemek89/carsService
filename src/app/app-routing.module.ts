@@ -1,11 +1,10 @@
 import {NgModule} from "@angular/core";
 import {RouterModule, Route} from "@angular/router";
-import { AuthGuard } from "./auth/auth.guard";
-import {CarsListComponent} from "./cars/cars-list/cars-list.component";
+import { AuthCanLoadGuard } from "./guards/auth-can-load.guard";
 
 const APP_ROUTES : Route[] = [
-    { path: '', pathMatch: 'full', redirectTo: 'cars', canActivate: [AuthGuard] },
-    { path: 'cars', component: <any>CarsListComponent, canActivate: [AuthGuard] }
+    { path: '', pathMatch: 'full', redirectTo: 'login' },
+    { path: 'cars', canLoad: [AuthCanLoadGuard] ,loadChildren: () => import('src/app/cars/cars.module').then(m => m.CarsModule) }
 ];
 
 @NgModule({
