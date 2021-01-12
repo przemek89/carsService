@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { CarsService } from '../cars.service';
 import { Car } from '../models/car';
@@ -17,6 +17,7 @@ import { CanDeactivateComponent } from 'src/app/guards/form-can-deactivate';
 })
 export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateComponent {
   @ViewChild("totalCostRef") totalCostRef : TotalCostComponent;
+  @ViewChild("addCarTitle") addCarTitle : ElementRef;
   @ViewChildren(CarTableRowComponent) carRows : QueryList<CarTableRowComponent>;
   totalCost : number;
   grossCost : number;
@@ -25,6 +26,7 @@ export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateCo
 
   constructor(private carsService : CarsService,
               private formBuilder : FormBuilder,
+              private renderer : Renderer2,
               private router : Router,
               private costSharedService : CostSharedService) { }
 
@@ -34,6 +36,15 @@ export class CarsListComponent implements OnInit, AfterViewInit, CanDeactivateCo
   }
 
   ngAfterViewInit() {
+    const addCarTitle = this.addCarTitle.nativeElement;
+    this.carForm.valueChanges.subscribe(() => {
+      if (this.carForm.invalid) {
+        this.renderer.setStyle(addCarTitle, 'color', 'red');
+      } else {
+        this.renderer.setStyle(addCarTitle, 'color', 'white');
+      }
+    });
+
     this.carRows.changes.subscribe(() => {
       if (this.carRows.first.car.clientSurname === 'Kowalski') {
         console.log('KOWALSKI');
