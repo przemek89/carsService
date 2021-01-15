@@ -12,11 +12,12 @@ import { CostSharedService } from './cost-shared.service';
 import { CarTableRowComponent } from './car-table-row/car-table-row.component';
 import { CarsRoutingModule } from './cars-routing.module';
 import { CarsComponent } from './cars.component';
+import { DateInfoComponent } from './car-details/date-info/date-info.component';
 
 
 
 @NgModule({
-  declarations: [CarsListComponent, TotalCostComponent, CarDetailsComponent, IncomeTaxComponent, CarTableRowComponent, CarsComponent],
+  declarations: [CarsListComponent, TotalCostComponent, CarDetailsComponent, IncomeTaxComponent, CarTableRowComponent, CarsComponent, DateInfoComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -30,6 +31,9 @@ import { CarsComponent } from './cars.component';
   providers: [
     CarResolve,
     CostSharedService
+  ],
+  entryComponents: [
+    DateInfoComponent
   ]
 })
 export class CarsModule { }

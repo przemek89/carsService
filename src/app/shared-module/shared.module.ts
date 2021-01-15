@@ -5,14 +5,29 @@ import { SurnameShortcutPipe } from './pipes/surname-shortcut.pipe';
 import { ImportantDirective } from './directives/important.directive';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ScrollTopDirective } from './directives/scroll-top.directive';
+import { TimerComponent } from './timer/timer.component';
 
 
 
 @NgModule({
-  declarations: [HeaderComponent, SurnameShortcutPipe, ImportantDirective, PageNotFoundComponent, ScrollTopDirective],
+  declarations: [
+    HeaderComponent,
+    SurnameShortcutPipe,
+    ImportantDirective,
+    PageNotFoundComponent,
+    ScrollTopDirective,
+    TimerComponent
+  ],
   imports: [
     CommonModule
   ],
-  exports: [HeaderComponent, SurnameShortcutPipe, ImportantDirective, PageNotFoundComponent, ScrollTopDirective]
+  exports: [
+    HeaderComponent,
+    SurnameShortcutPipe,
+    ImportantDirective,
+    PageNotFoundComponent,
+    ScrollTopDirective,
+    TimerComponent
+  ]
 })
 export class SharedModule { }
